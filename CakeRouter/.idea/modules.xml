@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CakeRouter.iml" filepath="$PROJECT_DIR$/CakeRouter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cakerouter/cakerouter.iml" filepath="$PROJECT_DIR$/cakerouter/cakerouter.iml" />
     </modules>
   </component>
 </project>
