@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.apt.ProxyInfo;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lizhaoxuan on 16/9/22.
+ * Created by lizhaoxuan on 16/12/3.
  */
 public class CakeRouter {
     public static final String TAG = CakeRouter.class.getSimpleName();
@@ -33,6 +35,7 @@ public class CakeRouter {
         this.domain = domain;
     }
 
+    private IDomainMap domainMap;
     /**
      * 域名头 例如：eleme
      */
@@ -103,23 +106,58 @@ public class CakeRouter {
         extraList.add(extra);
     }
 
-    public Intent createIntent(Context context, String url) throws RouterException {
-        Finder finder = new Finder(this);
-        finder.finderUrl(url);
-
-        Intent intent = new Intent();
-        Class clazz = null;
-        for (String page : pageName) {
+    private IDomainMap getDomainMap() {
+        if (domainMap == null) {
             try {
-                clazz = Class.forName(page);
-                break;
+                Class clazz = Class.forName(ProxyInfo.getProxyClassFullName());
+                domainMap = (IDomainMap) clazz.newInstance();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
+        return domainMap;
+    }
+
+    private Class getClassName() {
+        Class componentClass;
+        String fullClassName;
+        IDomainMap domainMap = getDomainMap();
+        for (String page : pageName) {
+            if (domainMap != null) {
+                fullClassName = domainMap.getFullClassName(page);
+                if (fullClassName != null) {
+                    try {
+                        componentClass = Class.forName(fullClassName);
+                        return componentClass;
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            //domainMap == null 或 未找到以提前设置的domain
+            try {
+                return Class.forName(page);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public Intent createIntent(Context context, String url) throws RouterException {
+
+        Finder finder = new Finder(this);
+        finder.finderUrl(url);
+
+        Intent intent = new Intent();
+        Class clazz = getClassName();
+
         if (clazz == null) {
-            Log.w(TAG, "page not found or is not Activity" + pageName);
-            return null;
+            throw new RouterException("page not found or is not Activity" + url);
         } else {
             intent.setClass(context, clazz);
             if (extraList != null) {

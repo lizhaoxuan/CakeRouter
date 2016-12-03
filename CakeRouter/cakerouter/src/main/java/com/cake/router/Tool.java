@@ -1,5 +1,6 @@
 package com.cake.router;
 
+
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
@@ -33,6 +34,8 @@ public class Tool {
                 return Type.BOOLEAN;
             case Type.CHAR_KEY:
                 return Type.CHAR;
+            case Type.STRING_KEY:
+                return Type.STRING;
             case Type.INT_ARRAY_KEY:
                 return Type.INT_ARRAY;
             case Type.LONG_ARRAY_KEY:
@@ -70,4 +73,5 @@ public class Tool {
 
     public static String toJson(Object src) {
         return GSON.toJson(src);
-    }}
+    }
+}

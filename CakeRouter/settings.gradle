@@ -1,1 +1,1 @@
-include ':app', ':cakerouter'
+include ':app', ':cakerouter', ':apt'
