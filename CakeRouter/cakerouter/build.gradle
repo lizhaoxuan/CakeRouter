@@ -1,5 +1,11 @@
 apply plugin: 'com.android.library'
 
+ext {
+    PUBLISH_GROUP_ID = 'com.github.zhaoxuan'
+    PUBLISH_ARTIFACT_ID = 'cake-router'
+    PUBLISH_VERSION = '0.1'
+}
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
@@ -31,3 +37,5 @@ dependencies {
     compile files('libs/apt.jar')
     compile 'com.google.code.gson:gson:2.4'
 }
+
+apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'

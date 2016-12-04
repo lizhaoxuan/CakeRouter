@@ -12,7 +12,6 @@ import java.net.URLEncoder;
 
 public class RouterActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
