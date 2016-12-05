@@ -11,7 +11,7 @@ packagingOptions {
 }
 
 dependencies {
-	compile 'com.github.zhaoxuan:cake-router:0.1'
+	compile 'com.github.zhaoxuan:cake-router:0.2'
 }
 
 ```
