@@ -114,5 +114,71 @@ public class RouterActivity extends AppCompatActivity {
 * build scheme
 
 ```java
+@CakeRouterUrl("main")
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Intent in = getIntent();
+        String strExtra = in.getStringExtra("str");
+        int intExtra = in.getIntExtra("int", -1);
+        char charExtra = in.getCharExtra("char", 'a');
+        NameClass nameClass = (NameClass) in.getSerializableExtra("name");
+        TextView textView = (TextView) findViewById(R.id.hello);
+        textView.setText(strExtra + " " + intExtra + " " + charExtra + " " + nameClass.getName());
+    }
+}
+
+
+public class RouterActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_router);
+
+        CakeRouter cakeRouter = new CakeRouter.Builder("eleme")
+                .build();
+        String url = createUrl();
+        Log.d("TAG", "url:" + url);
+        cakeRouter.dispatch(this, url);
+    }
+
+    private String createUrl() {
+        String url = "";
+        try {
+            url = new CakeRouter.Schema("eleme", "main")
+                    .putExtar("str", "abcdefg")
+                    .putExtar("int", 10)
+                    .putExtar("char", 'p')
+                    .putExtar("name", new NameClass("cakeRouter"))
+                    .build();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+}
+
+public class NameClass implements Serializable {
+
+    private String name;
+
+    public NameClass() {
+    }
+
+    public NameClass(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
 
 
