@@ -21,10 +21,26 @@ public class RouterActivity extends AppCompatActivity {
                 .build();
 //        test();
 //        String url = "eleme://com.demo.zhaoxuanli.listdemo.router.RouterTestActivity?str@str=abcdefg&int@i=10&char@c=p";
-        String url = "eleme://main?str@str=abcdefg&int@i=10&char@c=p";
-
+//        String url = "eleme://main?str@str=abcdefg&int@i=10&char@c=p";
+        String url = createUrl();
+        Log.d("TAG", "url:" + url);
         cakeRouter.dispatch(this, url);
+    }
 
+    private String createUrl() {
+        String url = "";
+        try {
+            url = new CakeRouter.Schema("eleme", "main")
+                    .putExtar("str", "abcdefg")
+                    .putExtar("int", 10)
+                    .putExtar("char", 'p')
+                    .putExtar("name", new NameClass("cakeRouter"))
+                    .build();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return url;
     }
 
 
