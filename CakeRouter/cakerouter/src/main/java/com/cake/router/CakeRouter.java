@@ -344,7 +344,7 @@ public class CakeRouter {
             return this;
         }
 
-        public void addParameter(String key, String valueType, String value) throws UnsupportedEncodingException {
+        private void addParameter(String key, String valueType, String value) throws UnsupportedEncodingException {
             if (parameters == null) {
                 parameters = new ArrayList<>();
             }
