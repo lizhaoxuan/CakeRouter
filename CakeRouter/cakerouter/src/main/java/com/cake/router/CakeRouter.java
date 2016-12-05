@@ -3,7 +3,6 @@ package com.cake.router;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.apt.ProxyInfo;
 
@@ -344,6 +343,11 @@ public class CakeRouter {
             return this;
         }
 
+        public Schema putExtar(String key, Object value) throws UnsupportedEncodingException {
+            addParameter(key, value.getClass().getCanonicalName(), Tool.toJson(value));
+            return this;
+        }
+
         private void addParameter(String key, String valueType, String value) throws UnsupportedEncodingException {
             if (parameters == null) {
                 parameters = new ArrayList<>();
@@ -354,6 +358,25 @@ public class CakeRouter {
                     "=" +
                     Tool.decode(value);
             parameters.add(builder);
+        }
+
+        public String build() {
+            StringBuilder builder = new StringBuilder();
+            builder.append(domain).append("://");
+            for (int i = 0, l = pageNames.length; i < l; i++) {
+                builder.append(pageNames[i]);
+                if (i != l - 1) {
+                    builder.append("&");
+                }
+            }
+            builder.append("?");
+            for (int i = 0, l = parameters.size(); i < l; i++) {
+                builder.append(parameters.get(i));
+                if (i != l - 1) {
+                    builder.append("&");
+                }
+            }
+            return builder.toString();
         }
 
 
